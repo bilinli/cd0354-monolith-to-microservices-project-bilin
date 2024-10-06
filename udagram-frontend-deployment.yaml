@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         service: udagram-frontend
+        api: external
     spec:
       containers:
         - name: udagram-frontend
@@ -20,16 +21,10 @@ spec:
           image: bilinli/udagram-frontend
           ports:
             - containerPort: 80
-          envFrom:
-            - configMapRef:
-                name: env-configmap
-            - secretRef:
-                name: env-secret
-          volumeMounts:
-            - name: aws-secret
-              mountPath: "/root/.aws/"
-              readOnly: true
-      volumes:
-        - name: aws-secret
-          secret:
-            secretName: aws-secret
+          resources:
+              requests:
+                memory: "64Mi"
+                cpu: "250m"
+              limits:
+                memory: "1024Mi"
+                cpu: "500m"
